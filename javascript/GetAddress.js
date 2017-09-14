@@ -27,7 +27,7 @@
           document.getElementById('listOfItems').innerHTML = "<b>Entered Addresses</b><br>";
           for (var i = 0; i < enteredAddresses.length; i++)
           {
-            document.getElementById('listOfItems').innerHTML += enteredAddresses[i] + "<br/>"
+            document.getElementById('listOfItems').innerHTML += "<LI class='testPos'>" + enteredAddresses[i]
           }
           document.getElementById('listOfItems').innerHTML += "<br>"
         }
@@ -35,9 +35,21 @@
           document.getElementById('listOfItems').innerHTML += "<b>Start Address</b><br>";
           for (var i = 0; i < startPosition.length; i++)
           {
-            document.getElementById('listOfItems').innerHTML += startPosition[i] + "<br/>"
+            document.getElementById('listOfItems').innerHTML += "<LI>" + startPosition[i]
           }
         }
+        var listItems = document.getElementsByTagName("li"); // or document.querySelectorAll("li");
+        for (var i = 0; i < listItems.length; i++) {
+          listItems[i].onclick = function() {
+            removeFromLists(this, i);
+            this.parentNode.removeChild(this);
+
+          }
+        }
+      }
+
+      function removeFromLists(i, arrayPos){
+        console.log(typeof(i));
       }
 
       function updateOptions(){

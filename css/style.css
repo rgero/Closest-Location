@@ -19,6 +19,9 @@ html, body {
   font-size:22px;
   font-weight:bold;
 }
+#listOfItems{
+  color:#cebb6b;
+}
 
 #floating-panel {
   position: absolute;
