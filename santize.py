@@ -3,7 +3,6 @@ import re, argparse
 
 if __name__=="__main__":
   targetKey = creds["api_key"]
-  print(targetKey)
   parser = argparse.ArgumentParser(description="Sanitizes/Restores the API Key")
   parser.add_argument("fileName", metavar="f", help="the file to sanitize")
   parser.add_argument("--restore","-r", help="restores the API key", nargs="?", const=True)
