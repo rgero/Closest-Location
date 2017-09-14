@@ -1,0 +1,36 @@
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 92%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#floatingTitle {
+  height:5%;
+  z-index: 5;
+  text-align:center;
+  background-color: #fff;
+}
+#title{
+  font-size:22px;
+  font-weight:bold;
+}
+
+#floating-panel {
+  position: absolute;
+  bottom:50px;
+  left:10px;
+  z-index: 5;
+  background-color: #00514f;
+  padding: 5px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
