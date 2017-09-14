@@ -1,9 +1,10 @@
-      
+
       var testPositions = [];
+      var enteredAddresses = [];
       var startPosition = [];
       var markerPositions = [];
       var map;
-    
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
@@ -14,12 +15,31 @@
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
-        
+
         document.getElementById('nextStep').addEventListener('click', function(){
           updateOptions();
         });
       }
-      
+
+      function updateList(){
+        document.getElementById('listOfItems').innerHTML = "";
+        if (enteredAddresses.length > 0){
+          document.getElementById('listOfItems').innerHTML = "<b>Entered Addresses</b><br>";
+          for (var i = 0; i < enteredAddresses.length; i++)
+          {
+            document.getElementById('listOfItems').innerHTML += enteredAddresses[i] + "<br/>"
+          }
+          document.getElementById('listOfItems').innerHTML += "<br>"
+        }
+        if (startPosition.length > 0){
+          document.getElementById('listOfItems').innerHTML += "<b>Start Address</b><br>";
+          for (var i = 0; i < startPosition.length; i++)
+          {
+            document.getElementById('listOfItems').innerHTML += startPosition[i] + "<br/>"
+          }
+        }
+      }
+
       function updateOptions(){
         var nextStepValue = document.getElementById('nextStep').value;
         if (nextStepValue == "Next"){
@@ -28,10 +48,10 @@
         } else {
           var marker = getShortestDistance();
           map.setCenter(marker);
-          
+
         }
       }
-      
+
       function getShortestDistance(){
         var shortestDistance = Number.MAX_VALUE;
         var targetMarker;
@@ -47,11 +67,11 @@
         }
         return targetMarker;
       }
-      
+
       var rad = function(x) {
         return x * Math.PI / 180;
       };
-      
+
       function calcDistance(p1,p2){
         var R = 6378137; // Earth’s mean radius in meter
         var dLat = rad(p2.lat() - p1.lat());
@@ -75,10 +95,12 @@
             });
             if (document.getElementById('submit').value == "Add Location"){
               testPositions.push(results[0].geometry.location);
-              markerPositions.push(marker)       
+              markerPositions.push(marker)
+              enteredAddresses.push(address);
             } else {
               startPosition.push(results[0].geometry.location);
             }
+            updateList();
             var bounds = new google.maps.LatLngBounds();
             if (markerPositions.length >= 2){
               for (var i = 0; i < markerPositions.length; i++) {
