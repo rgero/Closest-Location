@@ -1,6 +1,7 @@
 
       var testPositions = [];
       var enteredAddresses = [];
+      var enteredStartAddresses = [];
       var startPosition = [];
       var markerPositions = [];
       var map;
@@ -35,7 +36,7 @@
           document.getElementById('listOfItems').innerHTML += "<b>Start Address</b><br>";
           for (var i = 0; i < startPosition.length; i++)
           {
-            document.getElementById('listOfItems').innerHTML += "<LI>" + startPosition[i]
+            document.getElementById('listOfItems').innerHTML += "<LI>" + enteredStartAddresses[i]
           }
         }
         var listItems = document.getElementsByTagName("li"); // or document.querySelectorAll("li");
@@ -110,7 +111,10 @@
               markerPositions.push(marker)
               enteredAddresses.push(address);
             } else {
-              startPosition.push(results[0].geometry.location);
+              if (startPosition.length < 1){
+                startPosition.push(results[0].geometry.location);
+                enteredStartAddresses.push(address);
+              }
             }
             updateList();
             var bounds = new google.maps.LatLngBounds();
