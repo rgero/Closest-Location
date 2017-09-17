@@ -42,15 +42,24 @@
         var listItems = document.getElementsByTagName("li"); // or document.querySelectorAll("li");
         for (var i = 0; i < listItems.length; i++) {
           listItems[i].onclick = function() {
-            removeFromLists(this, i);
+            removeFromLists(this);
             this.parentNode.removeChild(this);
 
           }
         }
       }
 
-      function removeFromLists(i, arrayPos){
-        console.log(typeof(i));
+      function removeFromLists(i){
+        var selectedItem = i.innerHTML;
+        var targetIndex = enteredAddresses.indexOf(selectedItem);
+        if (targetIndex != -1){
+          enteredAddresses.splice(targetIndex,1);
+        }
+        var startIndex = enteredStartAddresses.indexOf(selectedItem);
+        if (startIndex != -1){
+          enteredStartAddresses.splice(startIndex, 1);
+        }
+        updateList();
       }
 
       function updateOptions(){
