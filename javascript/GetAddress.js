@@ -22,6 +22,7 @@
         });
       }
 
+      //Updates the lists
       function updateList(){
         document.getElementById('listOfItems').innerHTML = "";
         if (enteredAddresses.length > 0){
@@ -72,6 +73,7 @@
           map.setCenter(marker);
 
         }
+        // I have to include both the start address and the closest address.
       }
 
       function getShortestDistance(){
