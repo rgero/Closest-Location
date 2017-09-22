@@ -1,10 +1,24 @@
 
       var testPositions = [];
-      var enteredAddresses = [];
-      var enteredStartAddresses = [];
       var startPosition = [];
       var markerPositions = [];
       var map;
+
+      class Location {
+        constructor(addressName, address){
+          this.name = addressName;
+          this.lat = address.lat();
+          this.lng = address.lng();
+        }
+
+        getName(){
+          return this.name;
+        }
+
+        getLocation(){
+          return [this.lat, this.lng];
+        }
+      }
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -25,11 +39,11 @@
       //Updates the lists
       function updateList(){
         document.getElementById('listOfItems').innerHTML = "";
-        if (enteredAddresses.length > 0){
+        if (testPositions.length > 0){
           document.getElementById('listOfItems').innerHTML = "<b>Entered Addresses</b><br>";
-          for (var i = 0; i < enteredAddresses.length; i++)
+          for (var i = 0; i < testPositions.length; i++)
           {
-            document.getElementById('listOfItems').innerHTML += "<LI class='testPos'>" + enteredAddresses[i]
+            document.getElementById('listOfItems').innerHTML += "<LI class='testPos'>" + testPositions[i].getName();
           }
           document.getElementById('listOfItems').innerHTML += "<br>"
         }
@@ -37,7 +51,7 @@
           document.getElementById('listOfItems').innerHTML += "<b>Start Address</b><br>";
           for (var i = 0; i < startPosition.length; i++)
           {
-            document.getElementById('listOfItems').innerHTML += "<LI>" + enteredStartAddresses[i]
+            document.getElementById('listOfItems').innerHTML += "<LI>" + startPosition[i].getName();
           }
         }
         var listItems = document.getElementsByTagName("li"); // or document.querySelectorAll("li");
@@ -52,13 +66,13 @@
 
       function removeFromLists(i){
         var selectedItem = i.innerHTML;
-        var targetIndex = enteredAddresses.indexOf(selectedItem);
+        var targetIndex = testPositions.indexOf(selectedItem);
         if (targetIndex != -1){
-          enteredAddresses.splice(targetIndex,1);
+          testPositions.splice(targetIndex,1);
         }
-        var startIndex = enteredStartAddresses.indexOf(selectedItem);
+        var startIndex = startPosition.indexOf(selectedItem);
         if (startIndex != -1){
-          enteredStartAddresses.splice(startIndex, 1);
+          startPosition.splice(startIndex, 1);
         }
         updateList();
       }
@@ -118,13 +132,13 @@
               position: results[0].geometry.location
             });
             if (document.getElementById('submit').value == "Add Location"){
-              testPositions.push(results[0].geometry.location);
+              var newLocation = new Location(address, results[0].geometry.location);
+              testPositions.push(newLocation);
               markerPositions.push(marker)
-              enteredAddresses.push(address);
             } else {
               if (startPosition.length < 1){
-                startPosition.push(results[0].geometry.location);
-                enteredStartAddresses.push(address);
+                var newLocation = new Location(address, results[0].geometry.location);
+                startPosition.push(newLocation);
               }
             }
             updateList();
