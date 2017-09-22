@@ -1,7 +1,6 @@
 
       var testPositions = [];
       var startPosition = [];
-      var markerPositions = [];
       var map;
 
       class Location {
