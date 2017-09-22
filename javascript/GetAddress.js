@@ -5,10 +5,11 @@
       var map;
 
       class Location {
-        constructor(addressName, address){
+        constructor(addressName, address, marker){
           this.name = addressName;
           this.lat = address.lat();
           this.lng = address.lng();
+          this.marker = marker;
         }
 
         getName(){
@@ -17,6 +18,10 @@
 
         getLocation(){
           return [this.lat, this.lng];
+        }
+
+        getMarker(){
+          return this.marker;
         }
       }
 
@@ -57,21 +62,32 @@
         var listItems = document.getElementsByTagName("li"); // or document.querySelectorAll("li");
         for (var i = 0; i < listItems.length; i++) {
           listItems[i].onclick = function() {
-            removeFromLists(this);
+            removeItem(this);
             this.parentNode.removeChild(this);
 
           }
         }
       }
 
-      function removeFromLists(i){
+      function searchFor(arr, name){
+        for(var i = 0; i < arr.length; i++){
+          if( arr[i].getName() == name){
+            return i;
+          }
+        }
+        return -1;
+      }
+
+      function removeItem(i){
         var selectedItem = i.innerHTML;
-        var targetIndex = testPositions.indexOf(selectedItem);
+        var targetIndex = searchFor(testPositions, selectedItem);
         if (targetIndex != -1){
+          testPositions[targetIndex].getMarker().setMap(null);
           testPositions.splice(targetIndex,1);
         }
-        var startIndex = startPosition.indexOf(selectedItem);
+        var startIndex = searchFor(startPosition, selectedItem);
         if (startIndex != -1){
+          startPosition[startIndex].getMarker().setMap(null);
           startPosition.splice(startIndex, 1);
         }
         updateList();
@@ -132,12 +148,11 @@
               position: results[0].geometry.location
             });
             if (document.getElementById('submit').value == "Add Location"){
-              var newLocation = new Location(address, results[0].geometry.location);
+              var newLocation = new Location(address, results[0].geometry.location, marker);
               testPositions.push(newLocation);
-              markerPositions.push(marker)
             } else {
               if (startPosition.length < 1){
-                var newLocation = new Location(address, results[0].geometry.location);
+                var newLocation = new Location(address, results[0].geometry.location, marker);
                 startPosition.push(newLocation);
               }
             }
